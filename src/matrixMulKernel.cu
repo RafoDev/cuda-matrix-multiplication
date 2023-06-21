@@ -16,7 +16,7 @@ __global__ void MatrixMulKernel(float *M, float *N, float *P, int Width)
         {
             Pvalue += M[Row * Width + k] * N[k * Width + Col];
         }
-        P[Row * Width + Col] += Pvalue;
+        P[Row * Width + Col] = Pvalue;
     }
 }
 

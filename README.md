@@ -7,7 +7,7 @@ Se utiliza CUDA C/C++ para implementar dos kernels de multiplicación de matrice
 
 ## Input
 
-El input para ambos kernels es una matríz generada aleatoriamente, se utiliza la función `generateRandomMatrix`: 
+El input para ambos kernels es una matriz generada aleatoriamente, se utiliza la función `generateRandomMatrix`: 
 
 ```c++
 // include/utils.hpp
@@ -24,11 +24,11 @@ void generateRandomMatrix(vector<float> &matrix, int N)
 }
 ```
 
-Esta función genera numeros de coma flotante del 0 al 9 y se redondean. Esto se hizo para verificar las matrices resultantes, sin embargo, puede ser alterado para emitir flotantes no redondeados y en cualquier rango.
+Esta función genera números de coma flotante del 0 al 9 y se redondean. Esto se hizo para verificar las matrices resultantes, sin embargo, puede ser alterado para emitir flotantes no redondeados y en cualquier rango.
 
 ## Output
 
-El output de los kernels es una matríz producto de la multiplicación, se puede imprimir añadiéndo el argumento `-DEBUG` al ejecutar.
+El output de los kernels es una matriz producto de la multiplicación, se puede imprimir añadiendo el argumento `-DEBUG` al ejecutar.
 
 ```bash
 matrixMulKernel 4 -DEBUG
@@ -41,7 +41,7 @@ Este kernel realiza una multiplicación de matrices en paralelo.
 ```c++
 __global__ void MatrixMulKernel(float *M, float *N, float *P, int Width)
 {
-	// Se calculan las coordenadas globales de cada hilo en la matríz P
+	// Se calculan las coordenadas globales de cada hilo en la matriz P
     int Row = blockIdx.y * blockDim.y + threadIdx.y;
     int Col = blockIdx.x * blockDim.x + threadIdx.x;
 	// Se verifica que el hilo esté dentro de los límites válidos de la matriz P
@@ -55,8 +55,8 @@ __global__ void MatrixMulKernel(float *M, float *N, float *P, int Width)
 			// Se realiza la multiplicación de matrices y se acumulan los resultados
             Pvalue += M[Row * Width + k] * N[k * Width + Col];
         }
-		// Se actualiza la matríz de salida P con el resultado parcial calculado por el hijo
-        P[Row * Width + Col] += Pvalue;
+		// Se actualiza la matriz de salida P con el resultado parcial calculado por el hijo
+        P[Row * Width + Col] = Pvalue;
     }
 }
 ```
@@ -86,7 +86,7 @@ __global__ void MatrixMulKernelShared(float *M, float *N, float *P, int width)
 
     float Pvalue = 0;
 
-	// Se inicia un bucle para dividir la matríz en bloques más pequeños
+	// Se inicia un bucle para dividir la matriz en bloques más pequeños
     for (int ph = 0; ph < width / TILE_WIDTH; ph++)
     {
 		// Se cargan los bloques de las matriz M y N en memoria compartida Mds Nds
@@ -123,7 +123,7 @@ dim3 dimBlock(blockDim, blockDim, 1);
 MatrixMulKernelShared<<<dimGrid, dimBlock>>>(d_M, d_N, d_P, width);
 ```
 
-El motivo de esta configuración es asegurar que todos los elementos de la matríz P sean procesados correctamente. 
+El motivo de esta configuración es asegurar que todos los elementos de la matriz P sean procesados correctamente. 
 
 ## Comparación de rendimiento
 
