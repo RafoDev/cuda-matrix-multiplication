@@ -132,23 +132,12 @@ Para hacer la comprobación, al compilar el proyecto se copiará un script de ba
 <img src="https://i.postimg.cc/HncLV2bP/mat-cuda.png" alt="Original">
 
 
-Ejemplo del desenfoque aplicado:
-
-<div style="display: flex;">
-
-
-<img src="https://i.postimg.cc/9FLW0Z2z/blurred-racoon.png" alt="Blurred" style="width: 300px; height:300px;">
-
-</div>
-
-
-
 ## Compilación y uso
 
 Para clonar el proyecto:
 
 ```bash
-git clone https://github.com/RafoDev/cuda-filters.git
+git clone https://github.com/RafoDev/cuda-matrix-multiplication.git
 ```
 Para compilarlo:
 
